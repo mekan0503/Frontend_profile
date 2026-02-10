@@ -10,30 +10,111 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
-* { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins', sans-serif; }
-body { background:#000; display:flex; height:100vh; overflow:hidden; transition: background 0.4s ease; }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: #000;
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+    transition: background 0.4s ease;
+}
 
 /* LEFT */
-.left { width:650px; display:flex; background:#f4f6f8; transition: background 0.4s ease; }
+.left {
+    width: 650px;
+    display: flex;
+    background: #f4f6f8;
+    transition: background 0.4s ease;
+}
 
 /* SIDEBAR */
-.sidebar { width:60px; height:100%; background:white; border-right:1px solid #e5e5e5; display:flex; flex-direction:column; align-items:center; padding:20px 0; position:relative; z-index:10; }
-.hamburger { font-size:28px; cursor:pointer; margin-top:10px; transition:0.3s; }
-.hamburger:hover { color:#1d9bf0; }
-.sidebar-menu { display:flex; flex-direction:column; align-items:center; margin-top:40px; width:100%; }
-.menu-item { display:flex; flex-direction:column; align-items:center; margin:20px 0; cursor:pointer; width:100%; padding:12px 0; transition:0.3s; border-left:3px solid transparent; }
-.menu-item:hover { background:#f0f8ff; border-left:3px solid #1d9bf0; }
-.menu-item.active { background:#f0f8ff; border-left:3px solid #1d9bf0; color:#1d9bf0; }
-.menu-item i { font-size:20px; margin-bottom:6px; }
-.menu-item span { font-size:11px; font-weight:500; }
+.sidebar {
+    width: 60px;
+    height: 100%;
+    background: white;
+    border-right: 1px solid #e5e5e5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+    position: relative;
+    z-index: 10;
+}
+.hamburger {
+    font-size: 28px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+.hamburger:hover { color: #1d9bf0; }
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 40px;
+    width: 100%;
+}
+.menu-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 0;
+    cursor: pointer;
+    width: 100%;
+    padding: 12px 0;
+    transition: 0.3s;
+    border-left: 3px solid transparent;
+}
+.menu-item:hover { background: #f0f8ff; border-left: 3px solid #1d9bf0; }
+.menu-item.active {
+    background: #f0f8ff;
+    border-left: 3px solid #1d9bf0;
+    color: #1d9bf0;
+}
+.menu-item i { font-size: 20px; margin-bottom: 6px; }
+.menu-item span { font-size: 11px; font-weight: 500; }
 
 /* LEFT WINDOW */
-.left-window { position:fixed; left:-300px; top:0; width:300px; height:100%; background:#1d9bf0; box-shadow:5px 0 25px rgba(0,0,0,0.15); z-index:1000; transition:left 0.4s ease; display:flex; flex-direction:column; overflow-y:auto; color:white; }
-.left-window.active { left:0; }
-.window-header { padding:25px; background:rgba(255,255,255,0.1); border-bottom:1px solid rgba(255,255,255,0.2); display:flex; align-items:center; }
-.window-profile-img { width:60px; height:60px; border-radius:50%; background:url(img/cat_hangover_relax_213869.jpg) center/cover; margin-right:15px; border:3px solid rgba(255,255,255,0.8); box-shadow:0 4px 8px rgba(0,0,0,0.2); }
-.window-profile-info { flex:1; }
-.window-profile-info h3 { font-size:18px; font-weight:700; margin-bottom:5px; color:white; }
+.left-window {
+    position: fixed;
+    left: -300px;
+    top: 0;
+    width: 300px;
+    height: 100%;
+    background: #1d9bf0;
+    box-shadow: 5px 0 25px rgba(0,0,0,0.15);
+    z-index: 1000;
+    transition: left 0.4s ease;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    color: white;
+}
+.left-window.active { left: 0; }
+.window-header {
+    padding: 25px;
+    background: rgba(255,255,255,0.1);
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    display: flex;
+    align-items: center;
+}
+.window-profile-img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: url(img/cat_hangover_relax_213869.jpg) center/cover;
+    margin-right: 15px;
+    border: 3px solid rgba(255,255,255,0.8);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+.window-profile-info { flex: 1; }
+.window-profile-info h3 { font-size: 18px; font-weight:700; margin-bottom:5px; color:white; }
 .window-profile-info p { font-size:14px; color:rgba(255,255,255,0.8); }
 .window-divider { height:1px; background:rgba(255,255,255,0.3); margin:0 25px; }
 .window-content { padding:25px; flex:1; }
@@ -42,13 +123,50 @@ body { background:#000; display:flex; height:100vh; overflow:hidden; transition:
 .window-version { font-size:14px; color:rgba(255,255,255,0.7); letter-spacing:0.5px; }
 
 /* OVERLAY */
-.overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(29,155,240,0.9); z-index:999; display:none; }
+.overlay {
+    position: fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    background: rgba(29,155,240,0.9);
+    z-index:999;
+    display:none;
+}
 
 /* PHONE PROFILE */
-.phone { width:600px; background:white; min-height:100vh; box-shadow:0 0 40px rgba(0,0,0,0.1); }
-.cover { height:180px; background:url(img/cat_hangover_relax_213869.jpg) center/cover; position:relative; }
-.profile-img { position:absolute; bottom:-35px; left:50%; transform:translateX(-50%); width:110px; height:110px; border-radius:50%; border:6px solid white; background:url(img/cat_hangover_relax_213869.jpg) center/cover; }
-.edit-icon { position:absolute; bottom:-30px; left:calc(50% + 45px); width:32px; height:32px; background:#1d9bf0; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 10px rgba(0,0,0,0.2); cursor:pointer; }
+.phone {
+    width:600px;
+    background:white;
+    min-height:100vh;
+    box-shadow:0 0 40px rgba(0,0,0,0.1);
+}
+.cover {
+    height:180px;
+    background: url(img/cat_hangover_relax_213869.jpg) center/cover;
+    position:relative;
+}
+.profile-img {
+    position:absolute;
+    bottom:-35px;
+    left:50%;
+    transform:translateX(-50%);
+    width:110px; height:110px;
+    border-radius:50%;
+    border:6px solid white;
+    background: url(img/cat_hangover_relax_213869.jpg) center/cover;
+}
+.edit-icon {
+    position:absolute;
+    bottom:-30px;
+    left:calc(50% + 45px);
+    width:32px; height:32px;
+    background:#1d9bf0;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 4px 10px rgba(0,0,0,0.2);
+    cursor:pointer;
+}
 .edit-icon svg { width:16px; height:16px; fill:white; }
 .info { margin-top:80px; text-align:center; padding:0 20px; }
 .name { font-weight:700; font-size:24px; }
@@ -72,13 +190,28 @@ body { background:#000; display:flex; height:100vh; overflow:hidden; transition:
 .hidden { display:none; }
 
 /* EDIT PROFILE WINDOW */
-.edit-window { position:fixed; top:50%; left:50%; transform:translate(-50%, -50%) scale(0); width:350px; background:white; padding:25px; border-radius:12px; z-index:2000; box-shadow:0 10px 25px rgba(0,0,0,0.3); transition:0.3s ease; display:flex; flex-direction:column; }
+.edit-window {
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%) scale(0);
+    width:350px;
+    background:white;
+    padding:25px;
+    border-radius:12px;
+    z-index:2000;
+    box-shadow:0 10px 25px rgba(0,0,0,0.3);
+    transition:0.3s ease;
+    display:flex;
+    flex-direction:column;
+}
 .edit-window.active { transform:translate(-50%, -50%) scale(1); }
 .edit-window input[type=text], .edit-window input[type=file] { margin-bottom:10px; padding:6px; width:100%; }
 .edit-window img { width:80px; height:80px; border-radius:50%; margin-bottom:15px; align-self:center; }
 
 /* BODY EDIT ACTIVE */
 body.edit-active { background: rgba(0,0,0,0.5); }
+
 </style>
 </head>
 
@@ -171,20 +304,13 @@ body.edit-active { background: rgba(0,0,0,0.5); }
 <!-- EDIT PROFILE WINDOW -->
 <div class="edit-window" id="editWindow">
     <h2 style="margin-bottom:15px; text-align:center;">Edit Profile</h2>
-    
-    <label>Cover Image</label>
-    <input type="file" id="editCoverImg" accept="image/*">
-    <img id="previewCoverImg" src="img/cat_hangover_relax_213869.jpg" style="width:100%; height:100px; object-fit:cover; margin-bottom:10px;">
-    
     <label>Profile Image</label>
     <input type="file" id="editProfileImg" accept="image/*">
     <img id="previewImg" src="img/cat_hangover_relax_213869.jpg">
-    
     <label>Name</label>
     <input type="text" id="editName" value="Mekan Nurmuhammedow">
     <label>Bio</label>
     <input type="text" id="editBio" value="Web developer | Art Director">
-    
     <button id="saveProfile" style="margin-top:10px;padding:10px;background:#1d9bf0;color:white;border:none;border-radius:8px;">Save</button>
     <button id="cancelEdit" style="margin-top:10px;padding:10px;background:#ccc;color:black;border:none;border-radius:8px;">Cancel</button>
 </div>
@@ -236,12 +362,8 @@ const editBio = document.getElementById('editBio');
 const profileName = document.querySelector('.name');
 const profileRole = document.querySelector('.role');
 const profileImg = document.querySelector('.profile-img');
-const coverDiv = document.querySelector('.cover');
-
 const editProfileImg = document.getElementById('editProfileImg');
 const previewImg = document.getElementById('previewImg');
-const editCoverImg = document.getElementById('editCoverImg');
-const previewCoverImg = document.getElementById('previewCoverImg');
 
 editIcon.addEventListener('click', e=>{
     e.stopPropagation();
@@ -267,24 +389,12 @@ editProfileImg.addEventListener('change', function(){
     }
 });
 
-// Live preview of cover image
-editCoverImg.addEventListener('change', function(){
-    const file = this.files[0];
-    if(file){
-        const reader = new FileReader();
-        reader.onload = function(e){
-            previewCoverImg.src = e.target.result;
-        }
-        reader.readAsDataURL(file);
-    }
-});
-
 // Save profile
 saveProfile.addEventListener('click', ()=>{
-    profileName.innerHTML = editName.value + ' <span class="verified">✔</span>';
+    profileName.textContent = editName.value + " ";
+    profileName.innerHTML += '<span class="verified">✔</span>';
     profileRole.textContent = editBio.value;
     if(previewImg.src) profileImg.style.backgroundImage = `url(${previewImg.src})`;
-    if(previewCoverImg.src) coverDiv.style.backgroundImage = `url(${previewCoverImg.src})`;
     editWindow.classList.remove('active');
     body.classList.remove('edit-active');
 });
