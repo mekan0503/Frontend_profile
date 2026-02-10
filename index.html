@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profile</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins', sans-serif; }
+body { background:#000; display:flex; height:100vh; overflow:hidden; transition: background 0.4s ease; }
+
+/* LEFT */
+.left { width:650px; display:flex; background:#f4f6f8; transition: background 0.4s ease; }
+
+/* SIDEBAR */
+.sidebar { width:60px; height:100%; background:white; border-right:1px solid #e5e5e5; display:flex; flex-direction:column; align-items:center; padding:20px 0; position:relative; z-index:10; }
+.hamburger { font-size:28px; cursor:pointer; margin-top:10px; transition:0.3s; }
+.hamburger:hover { color:#1d9bf0; }
+.sidebar-menu { display:flex; flex-direction:column; align-items:center; margin-top:40px; width:100%; }
+.menu-item { display:flex; flex-direction:column; align-items:center; margin:20px 0; cursor:pointer; width:100%; padding:12px 0; transition:0.3s; border-left:3px solid transparent; }
+.menu-item:hover { background:#f0f8ff; border-left:3px solid #1d9bf0; }
+.menu-item.active { background:#f0f8ff; border-left:3px solid #1d9bf0; color:#1d9bf0; }
+.menu-item i { font-size:20px; margin-bottom:6px; }
+.menu-item span { font-size:11px; font-weight:500; }
+
+/* LEFT WINDOW */
+.left-window { position:fixed; left:-300px; top:0; width:300px; height:100%; background:#1d9bf0; box-shadow:5px 0 25px rgba(0,0,0,0.15); z-index:1000; transition:left 0.4s ease; display:flex; flex-direction:column; overflow-y:auto; color:white; }
+.left-window.active { left:0; }
+.window-header { padding:25px; background:rgba(255,255,255,0.1); border-bottom:1px solid rgba(255,255,255,0.2); display:flex; align-items:center; }
+.window-profile-img { width:60px; height:60px; border-radius:50%; background:url(img/cat_hangover_relax_213869.jpg) center/cover; margin-right:15px; border:3px solid rgba(255,255,255,0.8); box-shadow:0 4px 8px rgba(0,0,0,0.2); }
+.window-profile-info { flex:1; }
+.window-profile-info h3 { font-size:18px; font-weight:700; margin-bottom:5px; color:white; }
+.window-profile-info p { font-size:14px; color:rgba(255,255,255,0.8); }
+.window-divider { height:1px; background:rgba(255,255,255,0.3); margin:0 25px; }
+.window-content { padding:25px; flex:1; }
+.window-setting { font-size:18px; color:white; font-weight:600; margin-bottom:5px; }
+.window-footer { padding:20px 25px; border-top:1px solid rgba(255,255,255,0.3); text-align:center; }
+.window-version { font-size:14px; color:rgba(255,255,255,0.7); letter-spacing:0.5px; }
+
+/* OVERLAY */
+.overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(29,155,240,0.9); z-index:999; display:none; }
+
+/* PHONE PROFILE */
+.phone { width:600px; background:white; min-height:100vh; box-shadow:0 0 40px rgba(0,0,0,0.1); }
+.cover { height:180px; background:url(img/cat_hangover_relax_213869.jpg) center/cover; position:relative; }
+.profile-img { position:absolute; bottom:-35px; left:50%; transform:translateX(-50%); width:110px; height:110px; border-radius:50%; border:6px solid white; background:url(img/cat_hangover_relax_213869.jpg) center/cover; }
+.edit-icon { position:absolute; bottom:-30px; left:calc(50% + 45px); width:32px; height:32px; background:#1d9bf0; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 10px rgba(0,0,0,0.2); cursor:pointer; }
+.edit-icon svg { width:16px; height:16px; fill:white; }
+.info { margin-top:80px; text-align:center; padding:0 20px; }
+.name { font-weight:700; font-size:24px; }
+.verified { color:#1d9bf0; font-size:20px; }
+.role { color:gray; font-size:14px; margin-top:6px; }
+.stats { margin:25px; display:flex; justify-content:space-between; }
+.stat { flex:1; margin:0 5px; border:1px solid #dbe3ec; border-radius:12px; padding:14px 0; text-align:center; }
+.stat h3 { font-size:20px; }
+.stat p { font-size:12px; color:gray; }
+.tabs { margin:0 25px 15px; border:1px solid #dbe3ec; border-radius:15px; display:flex; overflow:hidden; }
+.tab { flex:1; text-align:center; padding:10px 0; font-size:14px; cursor:pointer; }
+.tab.active { background:#1d9bf0; color:white; }
+
+/* RIGHT CONTENT */
+.right { flex:1; display:flex; justify-content:center; align-items:center; color:white; font-size:20px; font-weight:600; text-align:center; padding:40px; position:relative; }
+.content-area { width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; position:absolute; top:0; left:0; }
+.content-area i { font-size:80px; margin-bottom:30px; opacity:0.7; }
+.content-area.profile i { color:#1d9bf0; }
+.content-area.chats i { color:#28a745; }
+.content-area.video i { color:#dc3545; }
+.hidden { display:none; }
+
+/* EDIT PROFILE WINDOW */
+.edit-window { position:fixed; top:50%; left:50%; transform:translate(-50%, -50%) scale(0); width:350px; background:white; padding:25px; border-radius:12px; z-index:2000; box-shadow:0 10px 25px rgba(0,0,0,0.3); transition:0.3s ease; display:flex; flex-direction:column; }
+.edit-window.active { transform:translate(-50%, -50%) scale(1); }
+.edit-window input[type=text], .edit-window input[type=file] { margin-bottom:10px; padding:6px; width:100%; }
+.edit-window img { width:80px; height:80px; border-radius:50%; margin-bottom:15px; align-self:center; }
+
+/* BODY EDIT ACTIVE */
+body.edit-active { background: rgba(0,0,0,0.5); }
+</style>
+</head>
+
+<body>
+
+<!-- LEFT WINDOW -->
+<div class="left-window" id="leftWindow">
+    <div class="window-header">
+        <div class="window-profile-img"></div>
+        <div class="window-profile-info">
+            <h3>Mekan</h3>
+            <p>Web developer</p>
+        </div>
+    </div>
+    <div class="window-divider"></div>
+    <div class="window-content">
+        <div class="window-setting">Настройка</div>
+    </div>
+    <div class="window-footer">
+        <div class="window-version">Mekan Nurmuhammedow</div>
+        <div class="window-version">version 1</div>
+    </div>
+</div>
+
+<div class="overlay" id="overlay"></div>
+
+<!-- LEFT SIDEBAR + PHONE -->
+<div class="left">
+    <div class="sidebar">
+        <div class="hamburger" id="hamburger">☰</div>
+        <div class="sidebar-menu">
+            <div class="menu-item active" data-content="profile">
+                <i class="fas fa-user"></i><span>Profile</span>
+            </div>
+            <div class="menu-item" data-content="chats">
+                <i class="fas fa-comments"></i><span>Chats</span>
+            </div>
+            <div class="menu-item" data-content="video">
+                <i class="fas fa-video"></i><span>Video</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="phone">
+        <div class="cover">
+            <div class="profile-img"></div>
+            <div class="edit-icon" style="margin-left:-20px;">
+                <svg viewBox="0 0 24 24">
+                    <path d="M3 17.25V21h3.75L19.81 7.94l-3.75-3.75L3 17.25zm2.92 2.83H5v-.92l9.06-9.06.92.92L5.92 20.08zM20.71 6.04a1 1 0 000-1.41l-1.34-1.34a1 1 0 00-1.41 0l-1.13 1.13 3.75 3.75 1.13-1.13z"/>
+                </svg>
+            </div>
+        </div>
+        <div class="info">
+            <div class="name">Mekan Nurmuhammedow <span class="verified">✔</span></div>
+            <div class="role">Web developer | Art Director</div>
+        </div>
+        <div class="stats">
+            <div class="stat"><h3>0</h3><p>Post</p></div>
+            <div class="stat"><h3>0</h3><p>Followers</p></div>
+            <div class="stat"><h3>0</h3><p>Following</p></div>
+        </div>
+        <div class="tabs">
+            <div class="tab active">Feed</div>
+            <div class="tab">Awards</div>
+            <div class="tab">Gallery</div>
+            <div class="tab">Network</div>
+        </div>
+    </div>
+</div>
+
+<!-- RIGHT CONTENT -->
+<div class="right">
+    <div class="content-area profile" id="profileContent">
+        <i class="fas fa-user-circle"></i>
+        <h2>Profile Section</h2>
+        <p>Your profile information and settings will appear here.</p>
+    </div>
+    <div class="content-area chats hidden" id="chatsContent">
+        <i class="fas fa-comment-dots"></i>
+        <h2>Chats Section</h2>
+        <p>Your conversations and messages will appear here.</p>
+    </div>
+    <div class="content-area video hidden" id="videoContent">
+        <i class="fas fa-play-circle"></i>
+        <h2>Video Section</h2>
+        <p>Your video content and calls will appear here.</p>
+    </div>
+</div>
+
+<!-- EDIT PROFILE WINDOW -->
+<div class="edit-window" id="editWindow">
+    <h2 style="margin-bottom:15px; text-align:center;">Edit Profile</h2>
+    
+    <label>Cover Image</label>
+    <input type="file" id="editCoverImg" accept="image/*">
+    <img id="previewCoverImg" src="img/cat_hangover_relax_213869.jpg" style="width:100%; height:100px; object-fit:cover; margin-bottom:10px;">
+    
+    <label>Profile Image</label>
+    <input type="file" id="editProfileImg" accept="image/*">
+    <img id="previewImg" src="img/cat_hangover_relax_213869.jpg">
+    
+    <label>Name</label>
+    <input type="text" id="editName" value="Mekan Nurmuhammedow">
+    <label>Bio</label>
+    <input type="text" id="editBio" value="Web developer | Art Director">
+    
+    <button id="saveProfile" style="margin-top:10px;padding:10px;background:#1d9bf0;color:white;border:none;border-radius:8px;">Save</button>
+    <button id="cancelEdit" style="margin-top:10px;padding:10px;background:#ccc;color:black;border:none;border-radius:8px;">Cancel</button>
+</div>
+
+<script>
+const hamburger = document.getElementById('hamburger');
+const leftWindow = document.getElementById('leftWindow');
+const overlay = document.getElementById('overlay');
+const body = document.body;
+const menuItems = document.querySelectorAll('.menu-item');
+const contentAreas = {
+    profile: document.getElementById('profileContent'),
+    chats: document.getElementById('chatsContent'),
+    video: document.getElementById('videoContent')
+};
+
+// Hamburger menu
+function toggleMenu() {
+    leftWindow.classList.toggle('active');
+    overlay.style.display = leftWindow.classList.contains('active') ? 'block':'none';
+    body.style.background = leftWindow.classList.contains('active') ? 'rgba(29,155,240,0.95)':'#000';
+}
+hamburger.addEventListener('click', e=>{ e.stopPropagation(); toggleMenu(); });
+overlay.addEventListener('click', ()=>{ leftWindow.classList.remove('active'); overlay.style.display='none'; body.style.background='#000'; });
+menuItems.forEach(item=>{
+    item.addEventListener('click', e=>{
+        e.stopPropagation();
+        menuItems.forEach(btn=>btn.classList.remove('active'));
+        item.classList.add('active');
+        const type = item.getAttribute('data-content');
+        Object.values(contentAreas).forEach(area=>area.classList.add('hidden'));
+        contentAreas[type].classList.remove('hidden');
+        leftWindow.classList.remove('active'); overlay.style.display='none'; body.style.background='#000';
+    });
+});
+document.addEventListener('click', e=>{
+    if(!leftWindow.contains(e.target) && !hamburger.contains(e.target)){
+        leftWindow.classList.remove('active'); overlay.style.display='none'; body.style.background='#000';
+    }
+});
+
+// EDIT PROFILE LOGIC
+const editIcon = document.querySelector('.edit-icon');
+const editWindow = document.getElementById('editWindow');
+const cancelEdit = document.getElementById('cancelEdit');
+const saveProfile = document.getElementById('saveProfile');
+const editName = document.getElementById('editName');
+const editBio = document.getElementById('editBio');
+const profileName = document.querySelector('.name');
+const profileRole = document.querySelector('.role');
+const profileImg = document.querySelector('.profile-img');
+const coverDiv = document.querySelector('.cover');
+
+const editProfileImg = document.getElementById('editProfileImg');
+const previewImg = document.getElementById('previewImg');
+const editCoverImg = document.getElementById('editCoverImg');
+const previewCoverImg = document.getElementById('previewCoverImg');
+
+editIcon.addEventListener('click', e=>{
+    e.stopPropagation();
+    editWindow.classList.add('active');
+    body.classList.add('edit-active');
+});
+
+// Cancel edit
+cancelEdit.addEventListener('click', ()=>{
+    editWindow.classList.remove('active');
+    body.classList.remove('edit-active');
+});
+
+// Live preview of profile image
+editProfileImg.addEventListener('change', function(){
+    const file = this.files[0];
+    if(file){
+        const reader = new FileReader();
+        reader.onload = function(e){
+            previewImg.src = e.target.result;
+        }
+        reader.readAsDataURL(file);
+    }
+});
+
+// Live preview of cover image
+editCoverImg.addEventListener('change', function(){
+    const file = this.files[0];
+    if(file){
+        const reader = new FileReader();
+        reader.onload = function(e){
+            previewCoverImg.src = e.target.result;
+        }
+        reader.readAsDataURL(file);
+    }
+});
+
+// Save profile
+saveProfile.addEventListener('click', ()=>{
+    profileName.innerHTML = editName.value + ' <span class="verified">✔</span>';
+    profileRole.textContent = editBio.value;
+    if(previewImg.src) profileImg.style.backgroundImage = `url(${previewImg.src})`;
+    if(previewCoverImg.src) coverDiv.style.backgroundImage = `url(${previewCoverImg.src})`;
+    editWindow.classList.remove('active');
+    body.classList.remove('edit-active');
+});
+</script>
+
+</body>
+</html>

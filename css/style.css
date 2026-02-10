@@ -1,0 +1,105 @@
+.bg-image {
+    background-image: url("../img/Bacgroun.png");
+    background-color: #cccccc;
+    background-repeat: no-repeat;
+    /* background-attachment: fixed; */
+    background-position: center;
+    background-size: cover;
+}
+.bg-image-4 {
+    background-image: url("../img/1.png");
+    background-color: #cccccc;
+    background-repeat: no-repeat;
+    /* background-attachment: fixed; */
+    background-position: center;
+    background-size: cover;
+}
+.text-none {
+    text-decoration: none;
+}
+.bg-image-1 {
+    background-image: url("..img/hero-bg-2.jpg");
+    background-color: #cccccc;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+}
+
+
+.bg-shadow {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+.bg-blue {
+    background-color: rgba(7, 13, 68, 0.822);
+}
+
+
+a.hover-1 {
+    position: relative;
+    color: white!important;
+}
+
+a.hover-1:hover {
+    color: orange!important;
+}
+
+
+a.hover-1:hover::before {
+    content: '';
+    position: absolute;
+    animation: hover-1 5s infinite;
+    top: 35px;
+    width: 106px;
+    height: 2px;
+    background-color: orange!important;
+    transition: .5s all;
+}
+
+@keyframes hover-1 {
+    0% {
+        width: 0;
+        height: 0;
+    }
+    50% {
+        width: 106px;
+        height: 2px;
+    }
+    75% {
+        width: 0;
+        height: 0;
+    }
+    100% {
+        width: 0;
+        height: 0;
+    }
+
+}
+.bg-dark-blue {
+    background-color: #08005E;
+}
+
+.aa.hover-1:hover::before {
+    content: '';
+    position: absolute;
+    animation: hover-1 5s infinite ;
+    top: 35px;
+    width: 106px;
+    height: 2px;
+    background-color: orange!important;
+    transition: .5s all;
+}
+
+.surat {
+  animation: upDown 1s ease-in-out infinite alternate;
+}
+
+/* Animasiýa — ýokardan aşak hereket */
+@keyframes upDown {
+  0% {
+    transform: translateY(0px);
+  }
+  100% {
+    transform: translateY(10px); /* 10px aşak geçýär */
+  }
+}
