@@ -1,405 +1,1037 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Profile</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video post – cover +, doly funksiýa</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    /* ========== ORJINAL STILLER + TÄZE VIDEO POST ========= */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
 
+    body {
+      background: #000;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+      transition: background 0.3s, color 0.3s;
+    }
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    .left {
+      flex: 1;
+      display: flex;
+      background: #f4f6f8;
+      transition: background 0.4s ease;
+      width: 100%;
+    }
 
-<style>
-* {
-    margin: 0;
-    
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-}
+    .sidebar {
+      width: 60px;
+      height: 100%;
+      background: white;
+      border-right: 1px solid #e5e5e5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 0;
+      position: relative;
+      z-index: 10;
+      flex-shrink: 0;
+    }
 
-body {
-    background: #000;
-    display: flex;
-    height: 100vh;
-    overflow: hidden;
-    transition: background 0.4s ease;
-}
+    .hamburger {
+      font-size: 28px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: 0.3s;
+    }
+    .hamburger:hover { color: #1d9bf0; }
 
-/* LEFT */
-.left {
-    width: 650px;
-    display: flex;
-    background: #f4f6f8;
-    transition: background 0.4s ease;
-}
+    .sidebar-menu {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: auto;
+      width: 100%;
+    }
 
-/* SIDEBAR */
-.sidebar {
-    width: 60px;
-    height: 100%;
-    background: white;
-    border-right: 1px solid #e5e5e5;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px 0;
-    position: relative;
-    z-index: 10;
-}
-.hamburger {
-    font-size: 28px;
-    cursor: pointer;
-    margin-top: 10px;
-    transition: 0.3s;
-}
-.hamburger:hover { color: #1d9bf0; }
-.sidebar-menu {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 40px;
-    width: 100%;
-}
-.menu-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 20px 0;
-    cursor: pointer;
-    width: 100%;
-    padding: 12px 0;
-    transition: 0.3s;
-    border-left: 3px solid transparent;
-}
-.menu-item:hover { background: #f0f8ff; border-left: 3px solid #1d9bf0; }
-.menu-item.active {
-    background: #f0f8ff;
-    border-left: 3px solid #1d9bf0;
-    color: #1d9bf0;
-}
-.menu-item i { font-size: 20px; margin-bottom: 6px; }
-.menu-item span { font-size: 11px; font-weight: 500; }
+    .menu-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 20px 0;
+      cursor: pointer;
+      width: 100%;
+      padding: 12px 0;
+      transition: 0.3s;
+      border-left: 3px solid transparent;
+    }
+    .menu-item:hover { background: #f0f8ff; border-left: 3px solid #1d9bf0; }
+    .menu-item.active {
+      background: #f0f8ff;
+      border-left: 3px solid #1d9bf0;
+      color: #1d9bf0;
+    }
+    .menu-item i { font-size: 20px; margin-bottom: 6px; }
+    .menu-item span { font-size: 11px; font-weight: 500; }
 
-/* LEFT WINDOW */
-.left-window {
-    position: fixed;
-    left: -300px;
-    top: 0;
-    width: 300px;
-    height: 100%;
-    background: #1d9bf0;
-    box-shadow: 5px 0 25px rgba(0,0,0,0.15);
-    z-index: 1000;
-    transition: left 0.4s ease;
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-    color: white;
-}
-.left-window.active { left: 0; }
-.window-header {
-    padding: 25px;
-    background: rgba(255,255,255,0.1);
-    border-bottom: 1px solid rgba(255,255,255,0.2);
-    display: flex;
-    align-items: center;
-}
-.window-profile-img {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background: url(img/cat_hangover_relax_213869.jpg) center/cover;
-    margin-right: 15px;
-    border: 3px solid rgba(255,255,255,0.8);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-}
-.window-profile-info { flex: 1; }
-.window-profile-info h3 { font-size: 18px; font-weight:700; margin-bottom:5px; color:white; }
-.window-profile-info p { font-size:14px; color:rgba(255,255,255,0.8); }
-.window-divider { height:1px; background:rgba(255,255,255,0.3); margin:0 25px; }
-.window-content { padding:25px; flex:1; }
-.window-setting { font-size:18px; color:white; font-weight:600; margin-bottom:5px; }
-.window-footer { padding:20px 25px; border-top:1px solid rgba(255,255,255,0.3); text-align:center; }
-.window-version { font-size:14px; color:rgba(255,255,255,0.7); letter-spacing:0.5px; }
+    /* ========== TELEFON – 900px ========= */
+    .phone {
+      width: 100%;
+      max-width: 900px;
+      margin: 20px auto;
+      background: white;
+      min-height: 90vh;
+      box-shadow: 0 0 40px rgba(0,0,0,0.1);
+      border-radius: 24px;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      transition: background 0.3s, color 0.3s;
+    }
 
-/* OVERLAY */
-.overlay {
-    position: fixed;
-    top:0; left:0;
-    width:100%; height:100%;
-    background: rgba(29,155,240,0.9);
-    z-index:999;
-    display:none;
-}
+    .profile-view {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+      overflow-y: auto;  /* postlar köpelse aşak süýşür */
+    }
 
-/* PHONE PROFILE */
-.phone {
-    width:600px;
-    background:white;
-    min-height:100vh;
-    box-shadow:0 0 40px rgba(0,0,0,0.1);
-}
-.cover {
-    height:180px;
-    background: url(img/cat_hangover_relax_213869.jpg) center/cover;
-    position:relative;
-}
-.profile-img {
-    position:absolute;
-    bottom:-35px;
-    left:50%;
-    transform:translateX(-50%);
-    width:110px; height:110px;
-    border-radius:50%;
-    border:6px solid white;
-    background: url(img/cat_hangover_relax_213869.jpg) center/cover;
-}
-.edit-icon {
-    position:absolute;
-    bottom:-30px;
-    left:calc(50% + 45px);
-    width:32px; height:32px;
-    background:#1d9bf0;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    box-shadow:0 4px 10px rgba(0,0,0,0.2);
-    cursor:pointer;
-}
-.edit-icon svg { width:16px; height:16px; fill:white; }
-.info { margin-top:80px; text-align:center; padding:0 20px; }
-.name { font-weight:700; font-size:24px; }
-.verified { color:#1d9bf0; font-size:20px; }
-.role { color:gray; font-size:14px; margin-top:6px; }
-.stats { margin:25px; display:flex; justify-content:space-between; }
-.stat { flex:1; margin:0 5px; border:1px solid #dbe3ec; border-radius:12px; padding:14px 0; text-align:center; }
-.stat h3 { font-size:20px; }
-.stat p { font-size:12px; color:gray; }
-.tabs { margin:0 25px 15px; border:1px solid #dbe3ec; border-radius:15px; display:flex; overflow:hidden; }
-.tab { flex:1; text-align:center; padding:10px 0; font-size:14px; cursor:pointer; }
-.tab.active { background:#1d9bf0; color:white; }
+    /* ========== KOVER – + IKON BILEN ========= */
+    .cover {
+      height: 180px;
+      background: url('img/cat_hangover_relax_213869.jpg') center/cover;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
 
-/* RIGHT CONTENT */
-.right { flex:1; display:flex; justify-content:center; align-items:center; color:white; font-size:20px; font-weight:600; text-align:center; padding:40px; position:relative; }
-.content-area { width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; position:absolute; top:0; left:0; }
-.content-area i { font-size:80px; margin-bottom:30px; opacity:0.7; }
-.content-area.profile i { color:#1d9bf0; }
-.content-area.chats i { color:#28a745; }
-.content-area.video i { color:#dc3545; }
-.hidden { display:none; }
+    .cover-video-plus {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      width: 44px;
+      height: 44px;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+      z-index: 30;
+      transition: 0.2s;
+      border: 2px solid rgba(29,155,240,0.3);
+    }
+    .cover-video-plus:hover {
+      background: white;
+      transform: scale(1.08);
+      border-color: #1d9bf0;
+    }
+    .cover-video-plus i {
+      color: #1d9bf0;
+      font-size: 22px;
+    }
 
-/* EDIT PROFILE WINDOW */
-.edit-window {
-    position:fixed;
-    top:50%;
-    left:50%;
-    transform:translate(-50%, -50%) scale(0);
-    width:350px;
-    background:white;
-    padding:25px;
-    border-radius:12px;
-    z-index:2000;
-    box-shadow:0 10px 25px rgba(0,0,0,0.3);
-    transition:0.3s ease;
-    display:flex;
-    flex-direction:column;
-}
-.edit-window.active { transform:translate(-50%, -50%) scale(1); }
-.edit-window input[type=text], .edit-window input[type=file] { margin-bottom:10px; padding:6px; width:100%; }
-.edit-window img { width:80px; height:80px; border-radius:50%; margin-bottom:15px; align-self:center; }
+    .profile-img {
+      position: absolute;
+      bottom: -35px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      border: 6px solid white;
+      background: url('img/cat_hangover_relax_213869.jpg') center/cover;
+      z-index: 40;
+    }
+    .edit-icon {
+      position: absolute;
+      bottom: -30px;
+      left: calc(50% + 45px);
+      width: 32px;
+      height: 32px;
+      background: #1d9bf0;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      cursor: pointer;
+      z-index: 50;
+    }
+    .edit-icon svg { width: 16px; height: 16px; fill: white; }
 
-/* BODY EDIT ACTIVE */
-body.edit-active { background: rgba(0,0,0,0.5); }
+    .info {
+      margin-top: 80px;
+      text-align: center;
+      padding: 0 20px;
+    }
+    .name { font-weight: 700; font-size: 24px; }
+    .verified { color: #1d9bf0; font-size: 20px; }
+    .role { color: gray; font-size: 14px; margin-top: 6px; }
 
-</style>
+    .stats {
+      margin: 25px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .stat {
+      flex: 1;
+      margin: 0 5px;
+      border: 1px solid #dbe3ec;
+      border-radius: 12px;
+      padding: 14px 0;
+      text-align: center;
+    }
+    .stat h3 { font-size: 20px; }
+    .stat p { font-size: 12px; color: gray; }
+
+    .tabs {
+      margin: 0 25px 15px;
+      border: 1px solid #dbe3ec;
+      border-radius: 15px;
+      display: flex;
+      overflow: hidden;
+    }
+    .tab {
+      flex: 1;
+      text-align: center;
+      padding: 10px 0;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .tab.active { background: #1d9bf0; color: white; }
+
+    /* ========== WIDEO POSTLAR ÜÇIN FEED ========= */
+    .video-posts-feed {
+      margin: 10px 25px 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .video-post-item {
+      background: white;
+      border: 1px solid #eef2f6;
+      border-radius: 20px;
+      padding: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+      transition: 0.2s;
+    }
+
+    .video-post-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+    .post-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: url('img/cat_hangover_relax_213869.jpg') center/cover;
+      margin-right: 12px;
+      border: 2px solid white;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .post-user {
+      font-weight: 600;
+      font-size: 15px;
+    }
+    .post-time {
+      font-size: 12px;
+      color: #6b7c8b;
+      margin-left: 10px;
+    }
+
+    .video-container {
+      width: 100%;
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 14px;
+      background: #000;
+    }
+    .video-container video {
+      width: 100%;
+      max-height: 400px;
+      object-fit: contain;
+      background: black;
+      display: block;
+    }
+
+    .post-description {
+      font-size: 15px;
+      line-height: 1.5;
+      color: #1e293b;
+      margin-bottom: 10px;
+      white-space: pre-wrap;
+    }
+
+    .post-hashtags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .hashtag {
+      background: #e6f0ff;
+      color: #1d4ed8;
+      padding: 5px 12px;
+      border-radius: 30px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .post-actions {
+      display: flex;
+      gap: 18px;
+      border-top: 1px solid #edf2f7;
+      padding-top: 14px;
+      margin-top: 4px;
+    }
+    .action-btn {
+      background: none;
+      border: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      color: #5f6b7a;
+      cursor: pointer;
+      padding: 6px 12px;
+      border-radius: 30px;
+      transition: 0.2s;
+    }
+    .action-btn i {
+      font-size: 16px;
+    }
+    .action-btn:hover {
+      background: #f1f5f9;
+      color: #1d9bf0;
+    }
+    .delete-btn:hover {
+      color: #dc2626 !important;
+    }
+
+    .comments-section {
+      margin-top: 16px;
+      background: #f9fbfd;
+      border-radius: 16px;
+      padding: 16px;
+      display: none;
+    }
+    .comments-section.show {
+      display: block;
+    }
+    .comment-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+    .comment-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #cbd5e1;
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+    .comment-content {
+      background: white;
+      padding: 10px 16px;
+      border-radius: 18px;
+      font-size: 14px;
+      color: #1e293b;
+      flex: 1;
+    }
+    .comment-author {
+      font-weight: 600;
+      margin-right: 8px;
+    }
+
+    /* ========== MODAL – WIDEO POST GOŞMAK ========= */
+    .video-modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      width: 450px;
+      max-width: 90%;
+      background: white;
+      border-radius: 28px;
+      z-index: 3000;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+      transition: 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .video-modal.active { transform: translate(-50%, -50%) scale(1); }
+
+    .modal-header {
+      padding: 20px 24px;
+      background: #1d9bf0;
+      color: white;
+      font-weight: 600;
+      font-size: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .modal-close {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 28px;
+      cursor: pointer;
+      padding: 0 6px;
+    }
+    .modal-body {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .modal-body label {
+      font-weight: 500;
+      color: #334155;
+      font-size: 14px;
+    }
+    .modal-body input[type="file"] {
+      border: 1px dashed #cbd5e1;
+      padding: 14px;
+      border-radius: 12px;
+      background: #f8fafc;
+    }
+    .modal-body textarea,
+    .modal-body input[type="text"] {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      font-size: 15px;
+      transition: 0.2s;
+    }
+    .modal-body textarea:focus,
+    .modal-body input[type="text"]:focus {
+      border-color: #1d9bf0;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(29,155,240,0.1);
+    }
+    .modal-btn {
+      background: #1d9bf0;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      padding: 12px;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+    .modal-btn:hover {
+      background: #1a8cd8;
+    }
+
+    /* ========== HAMBURGER WE BEÝLEKILER ========= */
+    .left-window {
+      position: fixed;
+      left: -300px;
+      top: 0;
+      width: 300px;
+      height: 100%;
+      background: white;
+      box-shadow: 5px 0 25px rgba(0,0,0,0.1);
+      z-index: 1000;
+      transition: left 0.4s ease;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      color: #1a1e24;
+    }
+    .left-window.active { left: 0; }
+
+    .window-header {
+      padding: 25px;
+      background: rgba(0,0,0,0.02);
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+      display: flex;
+      align-items: center;
+    }
+    .window-profile-img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: url('img/cat_hangover_relax_213869.jpg') center/cover;
+      margin-right: 15px;
+      border: 3px solid rgba(0,0,0,0.1);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+    .window-profile-info { flex: 1; }
+    .window-profile-info h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 5px;
+      color: #0c0e12;
+    }
+    .window-profile-info p {
+      font-size: 14px;
+      color: #5f6b7a;
+    }
+    .window-divider {
+      height: 1px;
+      background: rgba(0,0,0,0.08);
+      margin: 0 25px;
+    }
+
+    .window-menu {
+      padding: 15px 0;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .hamburger-btn {
+      display: flex;
+      align-items: center;
+      padding: 14px 25px;
+      margin: 2px 0;
+      font-size: 15px;
+      font-weight: 500;
+      color: #1e293b;
+      border: none;
+      background: transparent;
+      width: 100%;
+      text-align: left;
+      cursor: pointer;
+      transition: 0.2s;
+      border-left: 4px solid transparent;
+    }
+    .hamburger-btn i {
+      width: 28px;
+      font-size: 18px;
+      margin-right: 12px;
+      color: #5f6b7a;
+    }
+    .hamburger-btn:hover {
+      background: #f1f5f9;
+      border-left-color: #1d9bf0;
+    }
+    .hamburger-btn:hover i { color: #1d9bf0; }
+
+    .window-footer {
+      padding: 20px 25px;
+      border-top: 1px solid rgba(0,0,0,0.08);
+      text-align: center;
+    }
+    .window-version {
+      font-size: 14px;
+      color: #6f7c8b;
+      letter-spacing: 0.5px;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      z-index: 999;
+      display: none;
+    }
+
+    /* ========== DARK THEME ========= */
+    body.dark-theme,
+    body.dark-theme .left,
+    body.dark-theme .phone,
+    body.dark-theme .sidebar,
+    body.dark-theme .window-header,
+    body.dark-theme .left-window,
+    body.dark-theme .video-modal,
+    body.dark-theme .video-post-item,
+    body.dark-theme .comments-section {
+      background: #0f172a !important;
+      color: #e2e8f0 !important;
+      border-color: #334155 !important;
+    }
+    body.dark-theme .phone { background: #0f172a; color: white; }
+    body.dark-theme .sidebar { background: #1e293b; border-right-color: #334155; }
+    body.dark-theme .menu-item { color: #cbd5e1; }
+    body.dark-theme .menu-item.active,
+    body.dark-theme .menu-item:hover { background: #2d3b4f; }
+    body.dark-theme .stat,
+    body.dark-theme .tabs { border-color: #334155; background: #1e293b; }
+    body.dark-theme .stat p,
+    body.dark-theme .role,
+    body.dark-theme .content-area p { color: #94a3b8; }
+    body.dark-theme .hamburger-btn { color: #e2e8f0; }
+    body.dark-theme .hamburger-btn i { color: #94a3b8; }
+    body.dark-theme .window-profile-info h3,
+    body.dark-theme .window-profile-info p { color: #e2e8f0; }
+    body.dark-theme .post-description,
+    body.dark-theme .comment-content { color: #e2e8f0; background: #1e293b; }
+    body.dark-theme .hashtag { background: #1e3a5f; color: #bfdbfe; }
+    body.dark-theme .modal-body label { color: #cbd5e1; }
+    body.dark-theme .modal-body input,
+    body.dark-theme .modal-body textarea {
+      background: #0f172a;
+      border-color: #334155;
+      color: white;
+    }
+
+    /* ========== PRIVACY, EDIT we beýlekiler ========= */
+    .privacy-window, .edit-window { /* ... öňki stiller ... */ }
+    .privacy-window {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      width: 300px;
+      background: white;
+      border-radius: 20px;
+      z-index: 2500;
+      box-shadow: 0 20px 35px rgba(0,0,0,0.2);
+      transition: 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .privacy-window.active { transform: translate(-50%, -50%) scale(1); }
+    .privacy-header {
+      padding: 18px 20px;
+      background: #1d9bf0;
+      color: white;
+      font-weight: 600;
+      font-size: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .privacy-close {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      padding: 0 6px;
+    }
+    .privacy-body { padding: 30px 20px; text-align: center; color: #334155; min-height: 100px; }
+
+    .edit-window {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      width: 350px;
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      z-index: 2000;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      transition: 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .edit-window.active { transform: translate(-50%, -50%) scale(1); }
+    .edit-window input[type=text],
+    .edit-window input[type=file] {
+      margin-bottom: 10px;
+      padding: 6px;
+      width: 100%;
+    }
+    .edit-window img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin-bottom: 15px;
+      align-self: center;
+    }
+    body.edit-active { background: rgba(0,0,0,0.5); }
+    .hidden { display: none !important; }
+    .phone .content-area { /* ... */ }
+  </style>
 </head>
-
 <body>
 
-<!-- LEFT WINDOW -->
+<!-- ========== HAMBURGER MENÝUSY ========= -->
 <div class="left-window" id="leftWindow">
-    <div class="window-header">
-        <div class="window-profile-img"></div>
-        <div class="window-profile-info">
-            <h3>Mekan</h3>
-            <p>Web developer</p>
-        </div>
+  <div class="window-header">
+    <div class="window-profile-img" id="windowProfileImg"></div>
+    <div class="window-profile-info">
+      <h3>Mekan</h3>
+      <p>Web developer</p>
     </div>
-    <div class="window-divider"></div>
-    <div class="window-content">
-        <div class="window-setting">Настройка</div>
-    </div>
-    <div class="window-footer">
-        <div class="window-version">Mekan Nurmuhammedow</div>
-        <div class="window-version">version 1</div>
-    </div>
+  </div>
+  <div class="window-divider"></div>
+  <div class="window-menu">
+    <button class="hamburger-btn" id="btnSettings"><i class="fas fa-sliders-h"></i> Настройки</button>
+    <button class="hamburger-btn" id="btnAppearance"><i class="fas fa-palette"></i> Внешний вид</button>
+    <button class="hamburger-btn" id="btnPrivacy"><i class="fas fa-lock"></i> Конфиденциальность</button>
+    <button class="hamburger-btn" id="btnInvite"><i class="fas fa-user-plus"></i> Пригласить друзей</button>
+    <button class="hamburger-btn" id="btnLogout"><i class="fas fa-sign-out-alt"></i> Выйти</button>
+  </div>
+  <div class="window-footer">
+    <div class="window-version">Mekan Nurmuhammedow</div>
+    <div class="window-version">version 1</div>
+  </div>
 </div>
 
+<!-- REŇKSIZ OVERLAY -->
 <div class="overlay" id="overlay"></div>
 
-<!-- LEFT SIDEBAR + PHONE -->
-<div class="left">
-    <div class="sidebar">
-        <div class="hamburger" id="hamburger">☰</div>
-        <div class="sidebar-menu">
-            <div class="menu-item active" data-content="profile">
-                <i class="fas fa-user"></i><span>Profile</span>
-            </div>
-            <div class="menu-item" data-content="chats">
-                <i class="fas fa-comments"></i><span>Chats</span>
-            </div>
-            <div class="menu-item" data-content="video">
-                <i class="fas fa-video"></i><span>Video</span>
-            </div>
-        </div>
-    </div>
-
-    <div class="phone">
-        <div class="cover">
-            <div class="profile-img"></div>
-            <div class="edit-icon" style="margin-left:-20px;">
-                <svg viewBox="0 0 24 24">
-                    <path d="M3 17.25V21h3.75L19.81 7.94l-3.75-3.75L3 17.25zm2.92 2.83H5v-.92l9.06-9.06.92.92L5.92 20.08zM20.71 6.04a1 1 0 000-1.41l-1.34-1.34a1 1 0 00-1.41 0l-1.13 1.13 3.75 3.75 1.13-1.13z"/>
-                </svg>
-            </div>
-        </div>
-        <div class="info">
-            <div class="name">Mekan Nurmuhammedow <span class="verified">✔</span></div>
-            <div class="role">Web developer | Art Director</div>
-        </div>
-        <div class="stats">
-            <div class="stat"><h3>0</h3><p>Post</p></div>
-            <div class="stat"><h3>0</h3><p>Followers</p></div>
-            <div class="stat"><h3>0</h3><p>Following</p></div>
-        </div>
-        <div class="tabs">
-            <div class="tab active">Feed</div>
-            <div class="tab">Awards</div>
-            <div class="tab">Gallery</div>
-            <div class="tab">Network</div>
-        </div>
-    </div>
+<!-- PRIVACY PENJIRE -->
+<div class="privacy-window" id="privacyWindow">
+  <div class="privacy-header">
+    <span>Конфиденциальность</span>
+    <button class="privacy-close" id="closePrivacy">&times;</button>
+  </div>
+  <div class="privacy-body"><p style="opacity:0.3;">—</p></div>
 </div>
 
-<!-- RIGHT CONTENT -->
-<div class="right">
-    <div class="content-area profile" id="profileContent">
-        <i class="fas fa-user-circle"></i>
-        <h2>Profile Section</h2>
-        <p>Your profile information and settings will appear here.</p>
+<!-- ========== WIDEO POST ÜÇIN MODAL ========= -->
+<div class="video-modal" id="videoModal">
+  <div class="modal-header">
+    <span>📹 Täze video post</span>
+    <button class="modal-close" id="closeVideoModal">&times;</button>
+  </div>
+  <div class="modal-body">
+    <label>Wideo saýla</label>
+    <input type="file" id="videoFileInput" accept="video/*">
+    <label>Opisaniýe</label>
+    <textarea id="videoDesc" rows="2" placeholder="Näme barada?"></textarea>
+    <label>Heşteglər (otursaňyz)</label>
+    <input type="text" id="videoHashtags" placeholder="Mysal: #oýun #sýomka">
+    <button class="modal-btn" id="postVideoBtn">Post et</button>
+  </div>
+</div>
+
+<!-- ESASY LEFT + TELEFON -->
+<div class="left">
+  <div class="sidebar">
+    <div class="hamburger" id="hamburger">☰</div>
+    <div class="sidebar-menu">
+      <div class="menu-item active" data-content="profile"><i class="fas fa-user"></i><span>Profile</span></div>
+      <div class="menu-item" data-content="chats"><i class="fas fa-comments"></i><span>Chats</span></div>
+      <div class="menu-item" data-content="video"><i class="fas fa-video"></i><span>Video</span></div>
     </div>
+  </div>
+
+  <div class="phone">
+    <div class="profile-view" id="profileView">
+      <!-- COVER – + IKON SAG ÝOKARDA -->
+      <div class="cover" id="cover">
+        <div class="cover-video-plus" id="coverVideoPlus">
+          <i class="fas fa-plus"></i>
+        </div>
+        <div class="profile-img" id="profileImg"></div>
+        <div class="edit-icon" style="margin-left:-20px;">
+          <svg viewBox="0 0 24 24">
+            <path d="M3 17.25V21h3.75L19.81 7.94l-3.75-3.75L3 17.25zm2.92 2.83H5v-.92l9.06-9.06.92.92L5.92 20.08zM20.71 6.04a1 1 0 000-1.41l-1.34-1.34a1 1 0 00-1.41 0l-1.13 1.13 3.75 3.75 1.13-1.13z"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="info">
+        <div class="name">Mekan Nurmuhammedow <span class="verified">✔</span></div>
+        <div class="role">Web developer | Art Director</div>
+      </div>
+      <div class="stats">
+        <div class="stat"><h3 id="postCount">0</h3><p>Post</p></div>
+        <div class="stat"><h3>0</h3><p>Followers</p></div>
+        <div class="stat"><h3>0</h3><p>Following</p></div>
+      </div>
+      <div class="tabs">
+        <div class="tab active">Feed</div>
+        <div class="tab">Awards</div>
+        <div class="tab">Gallery</div>
+        <div class="tab">Network</div>
+      </div>
+
+      <!-- ========== WIDEO POSTLARYŇ FEEDI ========= -->
+      <div class="video-posts-feed" id="videoPostsFeed"></div>
+    </div> <!-- profile-view -->
+
+    <!-- CHATS we VIDEO bölümleri (gizli) -->
     <div class="content-area chats hidden" id="chatsContent">
-        <i class="fas fa-comment-dots"></i>
-        <h2>Chats Section</h2>
-        <p>Your conversations and messages will appear here.</p>
+      <i class="fas fa-comment-dots"></i>
+      <h2>Chats Section</h2>
+      <p>Your conversations and messages will appear here.</p>
     </div>
     <div class="content-area video hidden" id="videoContent">
-        <i class="fas fa-play-circle"></i>
-        <h2>Video Section</h2>
-        <p>Your video content and calls will appear here.</p>
+      <i class="fas fa-play-circle"></i>
+      <h2>Video Section</h2>
+      <p>Your video content and calls will appear here.</p>
     </div>
-</div>
+  </div> <!-- .phone -->
+</div> <!-- .left -->
 
-<!-- EDIT PROFILE WINDOW -->
+<!-- EDIT PROFIL PENJIRESI -->
 <div class="edit-window" id="editWindow">
-    <h2 style="margin-bottom:15px; text-align:center;">Edit Profile</h2>
-    <label>Profile Image</label>
-    <input type="file" id="editProfileImg" accept="image/*">
-    <img id="previewImg" src="img/cat_hangover_relax_213869.jpg">
-    <label>Name</label>
-    <input type="text" id="editName" value="Mekan Nurmuhammedow">
-    <label>Bio</label>
-    <input type="text" id="editBio" value="Web developer | Art Director">
-    <button id="saveProfile" style="margin-top:10px;padding:10px;background:#1d9bf0;color:white;border:none;border-radius:8px;">Save</button>
-    <button id="cancelEdit" style="margin-top:10px;padding:10px;background:#ccc;color:black;border:none;border-radius:8px;">Cancel</button>
+  <h2 style="margin-bottom:15px; text-align:center;">Edit Profile</h2>
+  <label>Profile Image</label>
+  <input type="file" id="editProfileImg" accept="image/*">
+  <img id="previewImg" src="img/cat_hangover_relax_213869.jpg">
+  <label>Name</label>
+  <input type="text" id="editName" value="Mekan Nurmuhammedow">
+  <label>Bio</label>
+  <input type="text" id="editBio" value="Web developer | Art Director">
+  <button id="saveProfile" style="margin-top:10px;padding:10px;background:#1d9bf0;color:white;border:none;border-radius:8px;">Save</button>
+  <button id="cancelEdit" style="margin-top:10px;padding:10px;background:#ccc;color:black;border:none;border-radius:8px;">Cancel</button>
 </div>
 
 <script>
-const hamburger = document.getElementById('hamburger');
-const leftWindow = document.getElementById('leftWindow');
-const overlay = document.getElementById('overlay');
-const body = document.body;
-const menuItems = document.querySelectorAll('.menu-item');
-const contentAreas = {
-    profile: document.getElementById('profileContent'),
-    chats: document.getElementById('chatsContent'),
-    video: document.getElementById('videoContent')
-};
+  // ========== HAMBURGER ==========
+  const hamburger = document.getElementById('hamburger');
+  const leftWindow = document.getElementById('leftWindow');
+  const overlay = document.getElementById('overlay');
+  const body = document.body;
 
-// Hamburger menu
-function toggleMenu() {
+  function closeHamburger() {
+    leftWindow.classList.remove('active');
+    overlay.style.display = 'none';
+  }
+  function toggleMenu() {
     leftWindow.classList.toggle('active');
-    overlay.style.display = leftWindow.classList.contains('active') ? 'block':'none';
-    body.style.background = leftWindow.classList.contains('active') ? 'rgba(29,155,240,0.95)':'#000';
-}
-hamburger.addEventListener('click', e=>{ e.stopPropagation(); toggleMenu(); });
-overlay.addEventListener('click', ()=>{ leftWindow.classList.remove('active'); overlay.style.display='none'; body.style.background='#000'; });
-menuItems.forEach(item=>{
-    item.addEventListener('click', e=>{
-        e.stopPropagation();
-        menuItems.forEach(btn=>btn.classList.remove('active'));
-        item.classList.add('active');
-        const type = item.getAttribute('data-content');
-        Object.values(contentAreas).forEach(area=>area.classList.add('hidden'));
-        contentAreas[type].classList.remove('hidden');
-        leftWindow.classList.remove('active'); overlay.style.display='none'; body.style.background='#000';
+    overlay.style.display = leftWindow.classList.contains('active') ? 'block' : 'none';
+    body.style.background = '#000';
+  }
+  hamburger.addEventListener('click', e => { e.stopPropagation(); toggleMenu(); });
+  overlay.addEventListener('click', closeHamburger);
+
+  // ========== ESASY MENÝU ==========
+  const menuItems = document.querySelectorAll('.sidebar .menu-item');
+  const profileView = document.getElementById('profileView');
+  const chatsContent = document.getElementById('chatsContent');
+  const videoContent = document.getElementById('videoContent');
+
+  function showProfile() {
+    menuItems.forEach(btn => btn.classList.remove('active'));
+    document.querySelector('.menu-item[data-content="profile"]').classList.add('active');
+    profileView.classList.remove('hidden');
+    chatsContent.classList.add('hidden');
+    videoContent.classList.add('hidden');
+  }
+  showProfile();
+
+  menuItems.forEach(item => {
+    item.addEventListener('click', e => {
+      e.stopPropagation();
+      const type = item.getAttribute('data-content');
+      menuItems.forEach(btn => btn.classList.remove('active'));
+      item.classList.add('active');
+      if (type === 'profile') {
+        profileView.classList.remove('hidden');
+        chatsContent.classList.add('hidden');
+        videoContent.classList.add('hidden');
+      } else if (type === 'chats') {
+        profileView.classList.add('hidden');
+        chatsContent.classList.remove('hidden');
+        videoContent.classList.add('hidden');
+      } else if (type === 'video') {
+        profileView.classList.add('hidden');
+        chatsContent.classList.add('hidden');
+        videoContent.classList.remove('hidden');
+      }
+      closeHamburger();
     });
-});
-document.addEventListener('click', e=>{
-    if(!leftWindow.contains(e.target) && !hamburger.contains(e.target)){
-        leftWindow.classList.remove('active'); overlay.style.display='none'; body.style.background='#000';
-    }
-});
+  });
 
-// EDIT PROFILE LOGIC
-const editIcon = document.querySelector('.edit-icon');
-const editWindow = document.getElementById('editWindow');
-const cancelEdit = document.getElementById('cancelEdit');
-const saveProfile = document.getElementById('saveProfile');
-const editName = document.getElementById('editName');
-const editBio = document.getElementById('editBio');
-const profileName = document.querySelector('.name');
-const profileRole = document.querySelector('.role');
-const profileImg = document.querySelector('.profile-img');
-const editProfileImg = document.getElementById('editProfileImg');
-const previewImg = document.getElementById('previewImg');
+  // ========== PROFIL REDAKTIROWANJE ==========
+  const editIcon = document.querySelector('.edit-icon');
+  const editWindow = document.getElementById('editWindow');
+  const cancelEdit = document.getElementById('cancelEdit');
+  const saveProfileBtn = document.getElementById('saveProfile');
+  const editName = document.getElementById('editName');
+  const editBio = document.getElementById('editBio');
+  const profileName = document.querySelector('.name');
+  const profileRole = document.querySelector('.role');
+  const profileImg = document.getElementById('profileImg');
+  const cover = document.querySelector('.cover');
+  const windowProfileImg = document.getElementById('windowProfileImg');
+  const editProfileImg = document.getElementById('editProfileImg');
+  const previewImg = document.getElementById('previewImg');
 
-editIcon.addEventListener('click', e=>{
-    e.stopPropagation();
+  function openEditWindow() {
     editWindow.classList.add('active');
     body.classList.add('edit-active');
-});
-
-// Cancel edit
-cancelEdit.addEventListener('click', ()=>{
+  }
+  editIcon.addEventListener('click', e => { e.stopPropagation(); openEditWindow(); });
+  cancelEdit.addEventListener('click', () => {
     editWindow.classList.remove('active');
     body.classList.remove('edit-active');
-});
-
-// Live preview of profile image
-editProfileImg.addEventListener('change', function(){
+  });
+  editProfileImg.addEventListener('change', function() {
     const file = this.files[0];
-    if(file){
-        const reader = new FileReader();
-        reader.onload = function(e){
-            previewImg.src = e.target.result;
-        }
-        reader.readAsDataURL(file);
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) { previewImg.src = e.target.result; };
+      reader.readAsDataURL(file);
     }
-});
-
-// Save profile
-saveProfile.addEventListener('click', ()=>{
-    profileName.textContent = editName.value + " ";
-    profileName.innerHTML += '<span class="verified">✔</span>';
+  });
+  saveProfileBtn.addEventListener('click', () => {
+    const newImg = previewImg.src;
+    profileName.innerHTML = editName.value + ' <span class="verified">✔</span>';
     profileRole.textContent = editBio.value;
-    if(previewImg.src) profileImg.style.backgroundImage = `url(${previewImg.src})`;
+    profileImg.style.backgroundImage = `url(${newImg})`;
+    cover.style.backgroundImage = `url(${newImg})`;
+    windowProfileImg.style.backgroundImage = `url(${newImg})`;
     editWindow.classList.remove('active');
     body.classList.remove('edit-active');
-});
+  });
+
+  // ========== HAMBURGER BUTONLARY ==========
+  const btnSettings = document.getElementById('btnSettings');
+  const btnAppearance = document.getElementById('btnAppearance');
+  const btnPrivacy = document.getElementById('btnPrivacy');
+  const btnInvite = document.getElementById('btnInvite');
+  const btnLogout = document.getElementById('btnLogout');
+  const privacyWindow = document.getElementById('privacyWindow');
+  const closePrivacy = document.getElementById('closePrivacy');
+
+  btnSettings.addEventListener('click', () => { openEditWindow(); closeHamburger(); });
+  btnAppearance.addEventListener('click', () => { body.classList.toggle('dark-theme'); closeHamburger(); });
+  btnPrivacy.addEventListener('click', () => { privacyWindow.classList.add('active'); closeHamburger(); });
+  closePrivacy.addEventListener('click', () => { privacyWindow.classList.remove('active'); });
+  window.addEventListener('click', (e) => { if (e.target === privacyWindow) privacyWindow.classList.remove('active'); });
+  btnInvite.addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText('hello world'); alert('Скопировано: hello world'); } 
+    catch { alert('Копирование не удалось'); }
+    closeHamburger();
+  });
+  btnLogout.addEventListener('click', () => { alert('Programdan cykdy'); closeHamburger(); });
+
+  // ========== TÄZE: + IKON BILEN WIDEO MODAL AÇ ==========
+  const coverVideoPlus = document.getElementById('coverVideoPlus');
+  const videoModal = document.getElementById('videoModal');
+  const closeVideoModal = document.getElementById('closeVideoModal');
+  const videoFileInput = document.getElementById('videoFileInput');
+  const videoDesc = document.getElementById('videoDesc');
+  const videoHashtags = document.getElementById('videoHashtags');
+  const postVideoBtn = document.getElementById('postVideoBtn');
+  const videoPostsFeed = document.getElementById('videoPostsFeed');
+  const postCountSpan = document.getElementById('postCount');
+
+  // Modal aç
+  coverVideoPlus.addEventListener('click', () => {
+    videoModal.classList.add('active');
+  });
+
+  // Modal ýap
+  closeVideoModal.addEventListener('click', () => {
+    videoModal.classList.remove('active');
+    videoFileInput.value = '';
+    videoDesc.value = '';
+    videoHashtags.value = '';
+  });
+
+  // Post et
+  postVideoBtn.addEventListener('click', () => {
+    const file = videoFileInput.files[0];
+    if (!file) { alert('Wideo saýlaň!'); return; }
+
+    const description = videoDesc.value.trim() || 'Hiç opisaniýe ýok';
+    const hashtagsInput = videoHashtags.value.trim();
+    let hashtags = [];
+    if (hashtagsInput) {
+      hashtags = hashtagsInput.split(' ').filter(tag => tag.startsWith('#') || tag.trim().length > 0);
+    }
+
+    const url = URL.createObjectURL(file);
+    const now = new Date();
+    const timeStr = now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+    const dayStr = now.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' });
+
+    // Avatar suratyny al (profilde häzirki)
+    const avatarUrl = profileImg.style.backgroundImage.slice(4, -1) || 'img/cat_hangover_relax_213869.jpg';
+    const userName = editName.value || 'Mekan Nurmuhammedow';
+
+    // Post elementini döret
+    const post = document.createElement('div');
+    post.className = 'video-post-item';
+
+    // Hashtag html
+    let hashtagHtml = '';
+    hashtags.forEach(tag => {
+      hashtagHtml += `<span class="hashtag">${tag}</span>`;
+    });
+
+    // Unikal ID (pozmak üçin)
+    const postId = 'post_' + Date.now();
+
+    post.innerHTML = `
+      <div class="video-post-header">
+        <div class="post-avatar" style="background-image: url('${avatarUrl}')"></div>
+        <div class="post-user">${userName}</div>
+        <span class="post-time">${dayStr}, ${timeStr}</span>
+      </div>
+      <div class="video-container">
+        <video src="${url}" controls autoplay muted loop playsinline></video>
+      </div>
+      <div class="post-description">${description.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>')}</div>
+      <div class="post-hashtags">${hashtagHtml}</div>
+      <div class="post-actions">
+        <button class="action-btn delete-btn" data-postid="${postId}"><i class="fas fa-trash"></i> Poz</button>
+        <button class="action-btn comments-btn" data-postid="${postId}"><i class="fas fa-comment"></i> Teswirler</button>
+      </div>
+      <div class="comments-section" id="comments-${postId}">
+        <div class="comment-item">
+          <div class="comment-avatar" style="background-image: url('${avatarUrl}')"></div>
+          <div class="comment-content"><span class="comment-author">Aýjemal:</span> Gaty gowy wideo! 🔥</div>
+        </div>
+        <div class="comment-item">
+          <div class="comment-avatar" style="background: #94a3b8;"></div>
+          <div class="comment-content"><span class="comment-author">Myrat:</span> Täsin, dowam et</div>
+        </div>
+        <div class="comment-item">
+          <div class="comment-avatar" style="background: #cbd5e1;"></div>
+          <div class="comment-content"><span class="comment-author">Selbi:</span> 👍👍</div>
+        </div>
+      </div>
+    `;
+
+    videoPostsFeed.prepend(post);
+    videoModal.classList.remove('active');
+    videoFileInput.value = ''; videoDesc.value = ''; videoHashtags.value = '';
+
+    // Post sany täzele
+    const currentCount = videoPostsFeed.children.length;
+    postCountSpan.textContent = currentCount;
+
+    // Delete işi
+    const deleteBtn = post.querySelector('.delete-btn');
+    deleteBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      post.remove();
+      postCountSpan.textContent = videoPostsFeed.children.length;
+    });
+
+    // Teswirleri görkez/ýap
+    const commentsBtn = post.querySelector('.comments-btn');
+    const commentsSection = post.querySelector('.comments-section');
+    commentsBtn.addEventListener('click', function() {
+      commentsSection.classList.toggle('show');
+    });
+  });
+
+  // Modal daşyndan basyp ýapmak (hökman däl)
+  window.addEventListener('click', (e) => {
+    if (e.target === videoModal) {
+      videoModal.classList.remove('active');
+    }
+  });
+
+  // Başlangyç post sany 0
+  postCountSpan.textContent = '0';
 </script>
 
 </body>
